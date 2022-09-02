@@ -1,0 +1,199 @@
+import 'dart:convert';
+import 'dart:core';
+import 'dart:math';
+
+import 'dart:async';
+import 'package:gameover/configgamephl.dart';
+import 'package:gameover/gamephlclass.dart';
+import 'package:gameover/phlcommons.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:video_player/video_player.dart';
+
+class VideoPlayerApp extends StatelessWidget {
+  const VideoPlayerApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      title: 'Video Player Demo',
+      home: VideoPlayerScreen(),
+    );
+  }
+}
+
+class VideoPlayerScreen extends StatefulWidget {
+  const VideoPlayerScreen({super.key});
+
+  @override
+  State<VideoPlayerScreen> createState() => _VideoPlayerScreenState();
+}
+
+class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
+  late VideoPlayerController _controller;
+  late Future<void> _initializeVideoPlayerFuture;
+  bool feuVert = false;
+  List<PhotoBase> listVideoBase = [];
+
+  bool getVideoBaseState = false;
+  int cetteVideo = 0;
+  List<Memoto> listMemoto = [];
+  bool getMemotoState = false;
+  int getMemotoError = -1;
+  @override
+  void initState() {
+    super.initState();
+    cetteVideo = 0;
+    getVideoBase();
+    getMemoto();
+
+    // Create and store the VideoPlayerController. The VideoPlayerController
+    // offers several different constructors to play videos from assets, files,
+    // or the internet.
+
+    //https://github.com/PML54/videopol
+
+    /*_controller = VideoPlayerController.network(
+      'https://lamemopole.com/videopol/'+   listVideoBase [2].photofilename +
+          "." +
+          listVideoBase[2].photofiletype,
+    );*/
+    _controller = VideoPlayerController.network(
+      'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
+    );
+
+    // Initialize the controller and store the Future for later use.
+    _initializeVideoPlayerFuture = _controller.initialize();
+
+    // Use the controller to loop the video.
+    _controller.setLooping(true);
+  }
+
+  @override
+  void dispose() {
+    // Ensure disposing of the VideoPlayerController to free up resources.
+    _controller.dispose();
+
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('VIDEOPOL'),
+      ),
+      // Use a FutureBuilder to display a loading spinner while waiting for the
+      // VideoPlayerController to finish initializing.
+      body: FutureBuilder(
+        future: _initializeVideoPlayerFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            // If the VideoPlayerController has finished initialization, use
+            // the data it provides to limit the aspect ratio of the video.
+            return AspectRatio(
+              aspectRatio: _controller.value.aspectRatio,
+              // Use the VideoPlayer widget to display the video.
+              child: VideoPlayer(_controller),
+            );
+          } else {
+            // If the VideoPlayerController is still initializing, show a
+            // loading spinner.
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Wrap the play or pause in a call to `setState`. This ensures the
+          // correct icon is shown.
+          setState(() {
+            // If the video is playing, pause it.
+            if (_controller.value.isPlaying) {
+              _controller.pause();
+            } else {
+              // If the video is paused, play it.
+              _controller.play();
+            }
+          });
+        },
+        // Display the correct icon depending on the state of the player.
+        child: Icon(
+          _controller.value.isPlaying ? Icons.pause : Icons.play_arrow,
+        ),
+      ),
+      bottomNavigationBar: Row(children: [
+
+        IconButton(
+            icon: const Icon(Icons.handyman),
+            iconSize: 35,
+            color: Colors.blue,
+            tooltip: 'Next',
+            onPressed: () {
+              setState(() {
+
+                cetteVideo = Random().nextInt(listVideoBase.length);
+                if (cetteVideo > listVideoBase.length) {
+                  cetteVideo = 0;
+                }
+                _controller = VideoPlayerController.network(
+                  'https://lamemopole.com/videopol/' +
+                      listVideoBase[cetteVideo].photofilename +
+                      "." +
+                      listVideoBase[cetteVideo].photofiletype,
+                );
+
+                // Initialize the controller and store the Future for later use.
+                _initializeVideoPlayerFuture = _controller.initialize();
+                // Use the controller to loop the video.
+                _controller.setLooping(true);
+                _controller.play();
+
+              });
+
+            }),
+      ]),
+    );
+  }
+
+  Future getVideoBase() async {
+    // Lire TABLE   PHOTOBASE et mettre dans  listPhotoBase
+    Uri url = Uri.parse(pathPHP + "readVIDEOBASE.php");
+    getVideoBaseState = false;
+    http.Response response = await http.get(url);
+    if (response.statusCode == 200) {
+      var datamysql = jsonDecode(response.body) as List;
+      setState(() {
+        listVideoBase =
+            datamysql.map((xJson) => PhotoBase.fromJson(xJson)).toList();
+        getVideoBaseState = true;
+        //   cestCeluiLa = Random().nextInt(listPhotoBase.length);
+        //getPhotoCat();
+        feuVert = true;
+        print(" listVideoBase" + listVideoBase.length.toString());
+      });
+    } else {}
+  }
+  Future getMemoto() async {
+    Uri url = Uri.parse(pathPHP + "getMEMOTO.php");
+    getMemotoState = false;
+    getMemotoError = 0;
+    http.Response response = await http.post(url);
+    if (response.body.toString() == 'ERR_1001') {
+      getMemotoError = 1001; //Not Found
+    }
+
+    if (response.statusCode == 200 && (getMemotoError != 1001)) {
+      var datamysql = jsonDecode(response.body) as List;
+
+      setState(() {
+        getMemotoError = 0;
+        listMemoto = datamysql.map((xJson) => Memoto.fromJson(xJson)).toList();
+        getMemotoState = true;
+      });
+    } else {}
+  }
+
+}

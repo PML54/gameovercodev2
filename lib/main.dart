@@ -15,6 +15,7 @@ import 'package:gameover/supercatrandom.dart';
 import 'package:gameover/supervisorgames.dart';
 import 'package:gameover/userconnect.dart';
 import 'package:gameover/usercreate.dart';
+import 'package:gameover/gamevideo.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'phlcommons.dart';
@@ -65,7 +66,7 @@ class _MenoPaulState extends State<MenoPaul> {
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            'lamemopole.com V1.19 '+ myPerso.myPseudo,
+            'lamemopole.com V1.20 '+ myPerso.myPseudo,
             style: GoogleFonts.averageSans(fontSize: 15.0),
           ),
 
@@ -431,7 +432,24 @@ class _MenoPaulState extends State<MenoPaul> {
             ),
 
 
-
+            Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: ElevatedButton(
+                child: Text(
+                  'VIDEO (test)',
+                  style:
+                  GoogleFonts.averageSans(fontSize: 15.0),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                        const VideoPlayerScreen()),
+                  );
+                },
+              ),
+            ),
           ],
         ));
   }
