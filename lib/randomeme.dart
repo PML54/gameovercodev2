@@ -48,7 +48,6 @@ class _RandoMemeState extends State<RandoMeme> {
   Icon thisIconclose = const Icon(Icons.lock_rounded);
   Icon thisIconopen = const Icon(Icons.lock_open_rounded);
   bool lockMemeState = true;
-
   bool lockPhotoState = true;
   Icon mmIcon = const Icon(Icons.lock_open_rounded);
   Icon phIcon = const Icon(Icons.lock_open_rounded);

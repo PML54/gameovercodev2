@@ -9,14 +9,15 @@ import 'package:gameover/phlcommons.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:video_player/video_player.dart';
-
+import 'package:google_fonts/google_fonts.dart';
+//<PMLV2>
 class VideoPlayerApp extends StatelessWidget {
   const VideoPlayerApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      title: 'Video Player Demo',
+      title: 'VideoPol',
       home: VideoPlayerScreen(),
     );
   }
@@ -34,12 +35,21 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   late Future<void> _initializeVideoPlayerFuture;
   bool feuVert = false;
   List<PhotoBase> listVideoBase = [];
-
+  int memoStockidRandom = 0;
   bool getVideoBaseState = false;
   int cetteVideo = 0;
   List<Memoto> listMemoto = [];
   bool getMemotoState = false;
   int getMemotoError = -1;
+
+  Icon thisIconclose = const Icon(Icons.lock_rounded);
+  Icon thisIconopen = const Icon(Icons.lock_open_rounded);
+  bool lockMemeState = true;
+  bool lockPhotoState = true;
+  Icon mmIcon = const Icon(Icons.lock_open_rounded);
+  Icon phIcon = const Icon(Icons.lock_open_rounded);
+  String memeLegende = "";
+  bool visStar = true;
   @override
   void initState() {
     super.initState();
@@ -47,17 +57,19 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     getVideoBase();
     getMemoto();
 
+   // thatPRL = 0;
+
+    mmIcon = thisIconopen;
+    phIcon = thisIconopen;
+    lockMemeState = false;
+    lockPhotoState = false;
+
+
     // Create and store the VideoPlayerController. The VideoPlayerController
     // offers several different constructors to play videos from assets, files,
     // or the internet.
 
     //https://github.com/PML54/videopol
-
-    /*_controller = VideoPlayerController.network(
-      'https://lamemopole.com/videopol/'+   listVideoBase [2].photofilename +
-          "." +
-          listVideoBase[2].photofiletype,
-    );*/
     _controller = VideoPlayerController.network(
       'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
     );
@@ -80,30 +92,101 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('VIDEOPOL'),
-      ),
+      appBar: AppBar(actions: <Widget>[
+        Expanded(
+          child: Row(
+            children: [
+              ElevatedButton(
+                  onPressed: () => {Navigator.pop(context)},
+                  style: ElevatedButton.styleFrom(
+                      primary: Colors.red,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 5),
+                      textStyle: const TextStyle(
+                          fontSize: 14,
+                          backgroundColor: Colors.red,
+                          fontWeight: FontWeight.bold)),
+                  child: const Text('Exit')),
+              IconButton(
+                icon: mmIcon,
+                color: Colors.black,
+                iconSize: 30.0,
+                tooltip: 'Lock Memes',
+                onPressed: () {
+                  lockMeme();
+                },
+              ),
+              IconButton(
+                icon: phIcon,
+                color: Colors.black,
+                iconSize: 30.0,
+                tooltip: 'Lock Photos',
+                onPressed: () {
+                  lockPhoto();
+                },
+              ),
+              Visibility(
+                visible: visStar,
+                child: IconButton(
+                  icon: const Icon(Icons.star),
+                  color: Colors.red,
+                  iconSize: 30.0,
+                  tooltip: 'Favori',
+                  onPressed: () {
+                    //createMemolike();
+                  },
+                ),
+              ),
+              IconButton(
+                icon: const Icon(Icons.add),
+                color: Colors.deepPurpleAccent,
+                iconSize: 35.0,
+                tooltip: 'Save Meme',
+                onPressed: () {
+                  //createMemeSolo();
+                  //
+                },
+              ),
+             // Text(photoIdRandom.toString()),
+            ],
+          ),
+        ),
+      ]),
       // Use a FutureBuilder to display a loading spinner while waiting for the
       // VideoPlayerController to finish initializing.
-      body: FutureBuilder(
-        future: _initializeVideoPlayerFuture,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            // If the VideoPlayerController has finished initialization, use
-            // the data it provides to limit the aspect ratio of the video.
-            return AspectRatio(
-              aspectRatio: _controller.value.aspectRatio,
-              // Use the VideoPlayer widget to display the video.
-              child: VideoPlayer(_controller),
-            );
-          } else {
-            // If the VideoPlayerController is still initializing, show a
-            // loading spinner.
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
+      body:
+      Column(
+        children: [
+          Container(
+              alignment: Alignment.bottomLeft,
+              child: Text(
+                memeLegende,
+                style: GoogleFonts.averageSans(fontSize: 18.0),
+              )),
+
+          Expanded(
+            child: FutureBuilder(
+              future: _initializeVideoPlayerFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  // If the VideoPlayerController has finished initialization, use
+                  // the data it provides to limit the aspect ratio of the video.
+                  return AspectRatio(
+                    aspectRatio: _controller.value.aspectRatio,
+                    // Use the VideoPlayer widget to display the video.
+                    child: VideoPlayer(_controller),
+                  );
+                } else {
+                  // If the VideoPlayerController is still initializing, show a
+                  // loading spinner.
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              },
+            ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -127,12 +210,22 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
       bottomNavigationBar: Row(children: [
 
         IconButton(
-            icon: const Icon(Icons.handyman),
+            icon: const Icon(Icons.gavel),
             iconSize: 35,
             color: Colors.blue,
             tooltip: 'Next',
             onPressed: () {
+
+              int random = Random().nextInt(listVideoBase.length-1); //Suppe 1
+              int randomMeme = Random().nextInt(listMemoto.length);
+
+
+
               setState(() {
+                if (!lockMemeState) {
+                  memeLegende = listMemoto[randomMeme].memostock;
+                }
+                memoStockidRandom = listMemoto[randomMeme].memostockid;
 
                 cetteVideo = Random().nextInt(listVideoBase.length);
                 if (cetteVideo > listVideoBase.length) {
@@ -158,8 +251,37 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     );
   }
 
+  /*
+        IconButton(
+              icon: const Icon(Icons.gavel),
+              iconSize: 50,
+              color: Colors.red,
+              tooltip: 'Photo Random',
+              onPressed: () {
+                setState(() {
+                  int random = Random().nextInt(nbPhotoRandom); //Suppe 1
+                  int randomMeme = Random().nextInt(listMemoto.length);
+
+                  photoIdRandom = photoidSelected[random];
+                  boolCategory = false;
+                  if (!lockPhotoState) {
+                    cestCeluiLa = getIndexFromPhotoId(photoIdRandom);
+                  }
+                  if (!lockMemeState) {
+                    memeLegende = listMemoto[randomMeme].memostock;
+                  }
+                  memoStockidRandom = listMemoto[randomMeme].memostockid;
+                  legendeController.text = memeLegendeUser;
+                  legendeController.text = memeLegende;
+                  visStar = true;
+                  //legendeController.text =""; // Test
+                  savePRL(); // Ajout pour toutes
+                });
+              }),
+   */
+
   Future getVideoBase() async {
-    // Lire TABLE   PHOTOBASE et mettre dans  listPhotoBase
+
     Uri url = Uri.parse(pathPHP + "readVIDEOBASE.php");
     getVideoBaseState = false;
     http.Response response = await http.get(url);
@@ -172,9 +294,12 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
         //   cestCeluiLa = Random().nextInt(listPhotoBase.length);
         //getPhotoCat();
         feuVert = true;
-        print(" listVideoBase" + listVideoBase.length.toString());
+
       });
-    } else {}
+    } else {
+
+      feuVert = false;
+    }
   }
   Future getMemoto() async {
     Uri url = Uri.parse(pathPHP + "getMEMOTO.php");
@@ -195,5 +320,51 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
       });
     } else {}
   }
+  lockMeme() {
+    setState(() {
+      lockMemeState = !lockMemeState;
+      if (lockMemeState) {
+        mmIcon = thisIconclose;
+      } else {
+        mmIcon = thisIconopen;
+      }
+    });
+  }
 
+  lockPhoto() {
+    setState(() {
+      lockPhotoState = !lockPhotoState;
+      if (lockPhotoState) {
+        phIcon = thisIconclose;
+      } else {
+        phIcon = thisIconopen;
+      }
+    });
+  }
+/*
+  Future createMemolike() async {
+    Uri url = Uri.parse(pathPHP + "createMEMOLIKE.php");
+
+    var data = {
+      "PHOTOID": photoIdRandom.toString(),
+      "MEMOSTOCKID": memoStockidRandom.toString(),
+      "MEMOLIKEUSER": myPseudo,
+    };
+
+    await http.post(url, body: data);
+
+    //
+    setState(() {
+      int random = Random().nextInt(nbPhotoRandom - 1);
+      int randomMeme = Random().nextInt(listMemoto.length - 1);
+      photoIdRandom = photoidSelected[random];
+      boolCategory = false;
+      if (!lockPhotoState) cestCeluiLa = getIndexFromPhotoId(photoIdRandom);
+      if (!lockMemeState) memeLegende = listMemoto[randomMeme].memostock;
+      memoStockidRandom = listMemoto[randomMeme].memostockid;
+      legendeController.text = memeLegendeUser;
+      legendeController.text = memeLegende;
+      visStar = true;
+    });
+  }*/
 }

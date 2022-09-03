@@ -66,7 +66,7 @@ class _MenoPaulState extends State<MenoPaul> {
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            'lamemopole.com V1.20 '+ myPerso.myPseudo,
+            'lamemopole.com V1.21 '+ myPerso.myPseudo,
             style: GoogleFonts.averageSans(fontSize: 15.0),
           ),
 
@@ -436,7 +436,7 @@ class _MenoPaulState extends State<MenoPaul> {
               padding: const EdgeInsets.all(10.0),
               child: ElevatedButton(
                 child: Text(
-                  'VIDEO (test)',
+                  'VIDEO',
                   style:
                   GoogleFonts.averageSans(fontSize: 15.0),
                 ),

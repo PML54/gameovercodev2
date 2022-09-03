@@ -37,7 +37,7 @@ class GameVote extends StatefulWidget {
 
 class _GameVoteState extends State<GameVote> {
   String ipv4name = "**.**.**";
-
+  int memoStockidRandom = 0;
   bool readGameLikeState = false;
   bool createGameVoteState = false;
   int readGameLikeError = 0;
