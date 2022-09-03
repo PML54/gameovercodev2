@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:gameover/admingame.dart';
 import 'package:gameover/adminmemotos.dart';
 import 'package:gameover/adminphotos.dart';
+import 'package:gameover/adminvideos.dart';
 import 'package:gameover/configgamephl.dart';
 import 'package:gameover/gamephlclass.dart';
 import 'package:gameover/mementoes.dart';
@@ -66,7 +67,7 @@ class _MenoPaulState extends State<MenoPaul> {
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            'lamemopole.com V1.21 '+ myPerso.myPseudo,
+            'lamemopole.com V1.22 '+ myPerso.myPseudo,
             style: GoogleFonts.averageSans(fontSize: 15.0),
           ),
 
@@ -315,6 +316,27 @@ class _MenoPaulState extends State<MenoPaul> {
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             const AdminPhotos()),
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                          Visibility(
+                            visible: isAdmin,
+                            child: Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: ElevatedButton(
+                                child: Text(
+                                  'ADMIN VIDEOS',
+                                  style:
+                                  GoogleFonts.averageSans(fontSize: 12.0),
+                                ),
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                        const AdminVideos()),
                                   );
                                 },
                               ),

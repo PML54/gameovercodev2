@@ -251,34 +251,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     );
   }
 
-  /*
-        IconButton(
-              icon: const Icon(Icons.gavel),
-              iconSize: 50,
-              color: Colors.red,
-              tooltip: 'Photo Random',
-              onPressed: () {
-                setState(() {
-                  int random = Random().nextInt(nbPhotoRandom); //Suppe 1
-                  int randomMeme = Random().nextInt(listMemoto.length);
 
-                  photoIdRandom = photoidSelected[random];
-                  boolCategory = false;
-                  if (!lockPhotoState) {
-                    cestCeluiLa = getIndexFromPhotoId(photoIdRandom);
-                  }
-                  if (!lockMemeState) {
-                    memeLegende = listMemoto[randomMeme].memostock;
-                  }
-                  memoStockidRandom = listMemoto[randomMeme].memostockid;
-                  legendeController.text = memeLegendeUser;
-                  legendeController.text = memeLegende;
-                  visStar = true;
-                  //legendeController.text =""; // Test
-                  savePRL(); // Ajout pour toutes
-                });
-              }),
-   */
 
   Future getVideoBase() async {
 
