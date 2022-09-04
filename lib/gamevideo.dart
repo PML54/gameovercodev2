@@ -166,6 +166,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
 
           Expanded(
             child: FutureBuilder(
+
               future: _initializeVideoPlayerFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
