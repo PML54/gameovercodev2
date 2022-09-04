@@ -158,14 +158,16 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
       Column(
         children: [
           Container(
-              alignment: Alignment.bottomLeft,
+              alignment: Alignment.topLeft,
               child: Text(
                 memeLegende,
                 style: GoogleFonts.averageSans(fontSize: 18.0),
               )),
 
           Expanded(
-            child: FutureBuilder(
+
+            child:
+            FutureBuilder(
 
               future: _initializeVideoPlayerFuture,
               builder: (context, snapshot) {
