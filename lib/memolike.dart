@@ -49,7 +49,6 @@ class _MemolikeState extends State<Memolike> {
   Widget build(BuildContext context) {
     final myPerso = ModalRoute.of(context)!.settings.arguments as GameCommons;
     myUid = myPerso.myUid;
-
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(actions: <Widget>[
@@ -299,10 +298,7 @@ class _MemolikeState extends State<Memolike> {
         }
       }
     });
-/*
-    Timer.periodic(Duration(seconds: 100), (timer) {
-      print(DateTime.now());
-    });*/
+
   }
 
   nextPRL() {

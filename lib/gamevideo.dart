@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:video_player/video_player.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+
 //<PMLV2>
 class VideoPlayerApp extends StatelessWidget {
   const VideoPlayerApp({super.key});
@@ -50,6 +52,9 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   Icon phIcon = const Icon(Icons.lock_open_rounded);
   String memeLegende = "";
   bool visStar = true;
+  late int myUid;
+  late String myPseudo;
+  List<int> photoidSelected = []; // retenues avec les Catégotire
   @override
   void initState() {
     super.initState();
@@ -71,7 +76,9 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
 
     //https://github.com/PML54/videopol
     _controller = VideoPlayerController.network(
-      'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
+      'https://lamemopole.com/videopol/PHL_01_MM-VIDEOMEME_29565375.mp4',
+
+     // 'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
     );
 
     // Initialize the controller and store the Future for later use.
@@ -91,6 +98,10 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final myPerso = ModalRoute.of(context)!.settings.arguments as GameCommons;
+    myUid = myPerso.myUid;
+    myPseudo = myPerso.myPseudo;
+
     return Scaffold(
       appBar: AppBar(actions: <Widget>[
         Expanded(
@@ -133,7 +144,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                   iconSize: 30.0,
                   tooltip: 'Favori',
                   onPressed: () {
-                    //createMemolike();
+                    createMemolikeVideo();
                   },
                 ),
               ),
@@ -156,6 +167,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
       // VideoPlayerController to finish initializing.
       body:
       Column(
+
         children: [
           Container(
               alignment: Alignment.topLeft,
@@ -216,7 +228,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
 
         IconButton(
             icon: const Icon(Icons.gavel),
-            iconSize: 35,
+            iconSize: 30,
             color: Colors.blue,
             tooltip: 'Next',
             onPressed: () {
@@ -233,10 +245,12 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                 memoStockidRandom = listMemoto[randomMeme].memostockid;
 
                 cetteVideo = Random().nextInt(listVideoBase.length);
+
                 if (cetteVideo > listVideoBase.length) {
                   cetteVideo = 0;
                 }
                 _controller = VideoPlayerController.network(
+
                   'https://lamemopole.com/videopol/' +
                       listVideoBase[cetteVideo].photofilename +
                       "." +
@@ -319,12 +333,11 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
       }
     });
   }
-/*
-  Future createMemolike() async {
-    Uri url = Uri.parse(pathPHP + "createMEMOLIKE.php");
+  Future createMemolikeVideo() async {
+    Uri url = Uri.parse(pathPHP + "createMEMOLIKEVIDEO.php");
 
     var data = {
-      "PHOTOID": photoIdRandom.toString(),
+      "PHOTOID": listVideoBase[cetteVideo].toString(),
       "MEMOSTOCKID": memoStockidRandom.toString(),
       "MEMOLIKEUSER": myPseudo,
     };
@@ -332,17 +345,32 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     await http.post(url, body: data);
 
     //
+    getRandom();
+  }
+  getRandom() {
     setState(() {
-      int random = Random().nextInt(nbPhotoRandom - 1);
+      int random = Random().nextInt(listVideoBase.length-1);
       int randomMeme = Random().nextInt(listMemoto.length - 1);
-      photoIdRandom = photoidSelected[random];
-      boolCategory = false;
-      if (!lockPhotoState) cestCeluiLa = getIndexFromPhotoId(photoIdRandom);
+      cetteVideo = photoidSelected[random];
+
+      //if (!lockPhotoState) cestCeluiLa = getIndexFromPhotoId(cetteVideo);
       if (!lockMemeState) memeLegende = listMemoto[randomMeme].memostock;
       memoStockidRandom = listMemoto[randomMeme].memostockid;
-      legendeController.text = memeLegendeUser;
-      legendeController.text = memeLegende;
+      /*legendeController.text = memeLegendeUser;
+      legendeController.text = memeLegende;*/
       visStar = true;
     });
-  }*/
+
+  }
+  getIndexFromPhotoId(_thatPhotoId) {
+    int index = 0;
+    for (PhotoBase _brocky in listVideoBase) {
+      if (_brocky.photoid == _thatPhotoId) {
+        return (index);
+      }
+      index++;
+    }
+    return (0);
+  }
+
 }

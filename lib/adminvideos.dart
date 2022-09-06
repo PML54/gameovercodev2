@@ -58,7 +58,7 @@ class _AdminVideosState extends State<AdminVideos> {
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
-      appBar: AppBar(actions: <Widget>[
+    appBar: AppBar(actions: <Widget>[
         Expanded(
           child: Row(
             children: [
@@ -75,7 +75,7 @@ class _AdminVideosState extends State<AdminVideos> {
                   child: const Text('Exit')),
 
 
-                  Text(" " + listPhotoBase[cetteVideo].photoid.toString()),
+                  Text("ID --> " + listPhotoBase[cetteVideo].photoid.toString()),
                   // Text(" " + listPhotoBaseWork[cestCeluiLa].photoid.toString())
             ]
           ),
