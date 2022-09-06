@@ -160,13 +160,10 @@ class _AdminVideosState extends State<AdminVideos> {
       // Create and store the VideoPlayerController. The VideoPlayerController
       // offers several different constructors to play videos from assets, files,
       // or the internet.
-
-      //https://github.com/PML54/videopol
       _controller = VideoPlayerController.network(
         'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
       );
       _initializeVideoPlayerFuture = _controller.initialize();
-
       // Use the controller to loop the video.
       _controller.setLooping(true);
 
@@ -210,7 +207,7 @@ class _AdminVideosState extends State<AdminVideos> {
       );
 
       // Initialize the controller and store the Future for later use.
-      _initializeVideoPlayerFuture = _controller.initialize();
+    //  _initializeVideoPlayerFuture = _controller.initialize();
       // Use the controller to loop the video.
       _controller.setLooping(true);
       _controller.play();
@@ -232,7 +229,7 @@ class _AdminVideosState extends State<AdminVideos> {
       );
 
       // Initialize the controller and store the Future for later use.
-      _initializeVideoPlayerFuture = _controller.initialize();
+   //   _initializeVideoPlayerFuture = _controller.initialize();
       // Use the controller to loop the video.
       _controller.setLooping(true);
       _controller.play();
