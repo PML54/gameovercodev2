@@ -68837,10 +68837,8 @@ return A.v(null,r)}})
 return A.w($async$dk,r)},
 an(){this.aE()
 this.t(new A.aaq(this))},
-fI(){++this.z
-this.t(new A.aar(this))},
-fL(){--this.z
-this.t(new A.aas(this))}}
+fI(){this.t(new A.aar(this))},
+fL(){this.t(new A.aas(this))}}
 A.aak.prototype={
 $0(){A.b5(this.a).cB(0,null)
 return A.aN([null],t.H)},
@@ -68875,7 +68873,7 @@ q.f=A.b(s,r).eJ(0)
 A.b(q.e,r).fg(!0)},
 $S:0}
 A.aar.prototype={
-$0(){var s="_controller",r=this.a,q=r.z,p=r.ch,o=p.length
+$0(){var s="_controller",r=this.a,q=++r.z,p=r.ch,o=p.length
 q=p[q>o?r.z=o-1:q]
 q=A.M5("https://lamemopole.com/videopol/"+q.x+"."+q.y)
 r.e=q
@@ -68884,7 +68882,7 @@ A.b(r.e,s).fg(!0)
 A.b(r.e,s).hP(0)},
 $S:0}
 A.aas.prototype={
-$0(){var s="_controller",r=this.a,q=r.z
+$0(){var s="_controller",r=this.a,q=--r.z
 if(q<0)q=r.z=0
 q=r.ch[q]
 q=A.M5("https://lamemopole.com/videopol/"+q.x+"."+q.y)

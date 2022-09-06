@@ -73,10 +73,7 @@ class _AdminVideosState extends State<AdminVideos> {
                           backgroundColor: Colors.red,
                           fontWeight: FontWeight.bold)),
                   child: const Text('Exit')),
-
-
                   Text("ID --> " + listPhotoBase[cetteVideo].photoid.toString()),
-                  // Text(" " + listPhotoBaseWork[cestCeluiLa].photoid.toString())
             ]
           ),
         ),
@@ -128,10 +125,7 @@ class _AdminVideosState extends State<AdminVideos> {
   }
 
   Future getPhotoBase() async {
-    // Lire TABLE   PHOTOBASE et mettre dans  listPhotoBase
-
     Uri url = Uri.parse(pathPHP + "readVIDEOBASE.php");
-
     getPhotoBaseState = false;
     http.Response response = await http.get(url);
     if (response.statusCode == 200) {
@@ -145,24 +139,6 @@ class _AdminVideosState extends State<AdminVideos> {
       });
     } else {}
   }
-
-
-
-  bool getStateCat(String lecode) {
-    for (PhotoCat _brocky in listPhotoCat) {
-      if (_brocky.photocat == lecode) {
-        if (_brocky.selected == 1) {
-          return (true);
-        } else {
-          return (false);
-        }
-      }
-    }
-    return (false);
-  }
-
-
-
 
 
   @override
@@ -220,8 +196,9 @@ class _AdminVideosState extends State<AdminVideos> {
   }
 
   nextPRL() {
-    cetteVideo++;
+
     setState(() {
+      cetteVideo++;
       if (cetteVideo > listPhotoBase.length) {
         cetteVideo = listPhotoBase.length - 1;
       }
@@ -241,8 +218,9 @@ class _AdminVideosState extends State<AdminVideos> {
   }
 
   prevPRL() {
-    cetteVideo--;
+
     setState(() {
+      cetteVideo--;
       if (cetteVideo < 0) {
         cetteVideo = 0;
       }
