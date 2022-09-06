@@ -232,13 +232,9 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
             color: Colors.blue,
             tooltip: 'Next',
             onPressed: () {
-
               int random = Random().nextInt(listVideoBase.length-1); //Suppe 1
               int randomMeme = Random().nextInt(listMemoto.length);
-
-
-
-              setState(() {
+                     setState(() {
                 if (!lockMemeState) {
                   memeLegende = listMemoto[randomMeme].memostock;
                 }
