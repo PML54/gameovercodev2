@@ -54,7 +54,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   bool visStar = true;
   late int myUid;
   late String myPseudo;
-  List<int> photoidSelected = []; // retenues avec les Catégotire
+
   @override
   void initState() {
     super.initState();
@@ -333,27 +333,30 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     Uri url = Uri.parse(pathPHP + "createMEMOLIKEVIDEO.php");
 
     var data = {
-      "PHOTOID": listVideoBase[cetteVideo].toString(),
+      "PHOTOID": listVideoBase[cetteVideo].photoid.toString(),
       "MEMOSTOCKID": memoStockidRandom.toString(),
       "MEMOLIKEUSER": myPseudo,
     };
-
-    await http.post(url, body: data);
-
+http.Response response =  await http.post(url, body: data);
+print ("response.statusCode"+response.statusCode.toString());
     //
     getRandom();
   }
   getRandom() {
-    setState(() {
-      int random = Random().nextInt(listVideoBase.length-1);
-      int randomMeme = Random().nextInt(listMemoto.length - 1);
-      cetteVideo = photoidSelected[random];
 
-      //if (!lockPhotoState) cestCeluiLa = getIndexFromPhotoId(cetteVideo);
-      if (!lockMemeState) memeLegende = listMemoto[randomMeme].memostock;
-      memoStockidRandom = listMemoto[randomMeme].memostockid;
-      /*legendeController.text = memeLegendeUser;
-      legendeController.text = memeLegende;*/
+    setState(() {
+      int randomMeme = Random().nextInt(listMemoto.length - 1);
+
+      if (!lockPhotoState) {
+        cetteVideo = Random().nextInt(listVideoBase.length - 1);
+
+      }
+
+
+      if (!lockMemeState) {
+        memeLegende = listMemoto[randomMeme].memostock;
+        memoStockidRandom = listMemoto[randomMeme].memostockid;
+      }
       visStar = true;
     });
 
