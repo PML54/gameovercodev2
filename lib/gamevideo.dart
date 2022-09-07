@@ -327,7 +327,6 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                   memoStockidRandom = listMemoto[randomMeme].memostockid;
                   memeLegende = listMemoto[randomMeme].memostock;
                 }
-
                 if (!lockPhotoState) {
                   cetteVideo = Random().nextInt(listVideoBase.length - 1);
                 }
