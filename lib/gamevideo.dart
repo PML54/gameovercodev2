@@ -235,7 +235,10 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                 // Use the controller to loop the video.
                 _controller.setLooping(true);
                 _controller.play();
-              });
+              }
+
+
+              );
             }),
       ]),
     );
@@ -317,18 +320,36 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   }
 
   getRandom() {
-    setState(() {
-      if (!lockPhotoState) {
-        cetteVideo = Random().nextInt(listVideoBase.length - 1);
-      }
 
-      if (!lockMemeState) {
-        int randomMeme = Random().nextInt(listMemoto.length - 1);
-        memeLegende = listMemoto[randomMeme].memostock;
-        memoStockidRandom = listMemoto[randomMeme].memostockid;
-      }
-      visStar = true;
-    });
+     setState(() {
+                if (!lockMemeState) {
+                  int randomMeme = Random().nextInt(listMemoto.length);
+                  memoStockidRandom = listMemoto[randomMeme].memostockid;
+                  memeLegende = listMemoto[randomMeme].memostock;
+                }
+
+                if (!lockPhotoState) {
+                  cetteVideo = Random().nextInt(listVideoBase.length - 1);
+                }
+                _controller = VideoPlayerController.network(
+                  'https://lamemopole.com/videopol/' +
+                      listVideoBase[cetteVideo].photofilename +
+                      "." +
+                      listVideoBase[cetteVideo].photofiletype,
+                );
+
+                // Initialize the controller and store the Future for later use.
+                _initializeVideoPlayerFuture = _controller.initialize();
+                // Use the controller to loop the video.
+                _controller.setLooping(true);
+                _controller.play();
+                visStar = true;
+
+              }
+
+
+
+    );
   }
 
   getIndexFromPhotoId(_thatPhotoId) {
