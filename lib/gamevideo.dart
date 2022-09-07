@@ -11,7 +11,6 @@ import 'package:http/http.dart' as http;
 import 'package:video_player/video_player.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
 //<PMLV2>
 class VideoPlayerApp extends StatelessWidget {
   const VideoPlayerApp({super.key});
@@ -61,29 +60,19 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
     cetteVideo = 0;
     getVideoBase();
     getMemoto();
-
-   // thatPRL = 0;
-
     mmIcon = thisIconopen;
     phIcon = thisIconopen;
     lockMemeState = false;
     lockPhotoState = false;
 
-
     // Create and store the VideoPlayerController. The VideoPlayerController
     // offers several different constructors to play videos from assets, files,
-    // or the internet.
-
-    //https://github.com/PML54/videopol
     _controller = VideoPlayerController.network(
       'https://lamemopole.com/videopol/PHL_01_MM-VIDEOMEME_29565375.mp4',
-
-     // 'https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4',
     );
 
     // Initialize the controller and store the Future for later use.
     _initializeVideoPlayerFuture = _controller.initialize();
-
     // Use the controller to loop the video.
     _controller.setLooping(true);
   }
@@ -92,7 +81,6 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   void dispose() {
     // Ensure disposing of the VideoPlayerController to free up resources.
     _controller.dispose();
-
     super.dispose();
   }
 
@@ -158,16 +146,14 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                   //
                 },
               ),
-             // Text(photoIdRandom.toString()),
+              // Text(photoIdRandom.toString()),
             ],
           ),
         ),
       ]),
       // Use a FutureBuilder to display a loading spinner while waiting for the
       // VideoPlayerController to finish initializing.
-      body:
-      Column(
-
+      body: Column(
         children: [
           Container(
               alignment: Alignment.topLeft,
@@ -175,13 +161,9 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                 memeLegende,
                 style: GoogleFonts.averageSans(fontSize: 18.0),
               )),
-
           Container(
             child: Expanded(
-
-              child:
-              FutureBuilder(
-
+              child: FutureBuilder(
                 future: _initializeVideoPlayerFuture,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
@@ -225,28 +207,23 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
         ),
       ),
       bottomNavigationBar: Row(children: [
-
         IconButton(
             icon: const Icon(Icons.gavel),
             iconSize: 30,
             color: Colors.blue,
             tooltip: 'Next',
             onPressed: () {
-              int random = Random().nextInt(listVideoBase.length-1); //Suppe 1
-              int randomMeme = Random().nextInt(listMemoto.length);
-                     setState(() {
+              setState(() {
                 if (!lockMemeState) {
+                  int randomMeme = Random().nextInt(listMemoto.length);
+                  memoStockidRandom = listMemoto[randomMeme].memostockid;
                   memeLegende = listMemoto[randomMeme].memostock;
                 }
-                memoStockidRandom = listMemoto[randomMeme].memostockid;
 
-                cetteVideo = Random().nextInt(listVideoBase.length);
-
-                if (cetteVideo > listVideoBase.length) {
-                  cetteVideo = 0;
+                if (!lockPhotoState) {
+                  cetteVideo = Random().nextInt(listVideoBase.length - 1);
                 }
                 _controller = VideoPlayerController.network(
-
                   'https://lamemopole.com/videopol/' +
                       listVideoBase[cetteVideo].photofilename +
                       "." +
@@ -258,18 +235,13 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                 // Use the controller to loop the video.
                 _controller.setLooping(true);
                 _controller.play();
-
               });
-
             }),
       ]),
     );
   }
 
-
-
   Future getVideoBase() async {
-
     Uri url = Uri.parse(pathPHP + "readVIDEOBASE.php");
     getVideoBaseState = false;
     http.Response response = await http.get(url);
@@ -282,13 +254,12 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
         //   cestCeluiLa = Random().nextInt(listPhotoBase.length);
         //getPhotoCat();
         feuVert = true;
-
       });
     } else {
-
       feuVert = false;
     }
   }
+
   Future getMemoto() async {
     Uri url = Uri.parse(pathPHP + "getMEMOTO.php");
     getMemotoState = false;
@@ -308,6 +279,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
       });
     } else {}
   }
+
   lockMeme() {
     setState(() {
       lockMemeState = !lockMemeState;
@@ -329,6 +301,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
       }
     });
   }
+
   Future createMemolikeVideo() async {
     Uri url = Uri.parse(pathPHP + "createMEMOLIKEVIDEO.php");
 
@@ -337,30 +310,27 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
       "MEMOSTOCKID": memoStockidRandom.toString(),
       "MEMOLIKEUSER": myPseudo,
     };
-http.Response response =  await http.post(url, body: data);
-print ("response.statusCode"+response.statusCode.toString());
+    http.Response response = await http.post(url, body: data);
+    print("response.statusCode" + response.statusCode.toString());
     //
     getRandom();
   }
+
   getRandom() {
-
     setState(() {
-      int randomMeme = Random().nextInt(listMemoto.length - 1);
-
       if (!lockPhotoState) {
         cetteVideo = Random().nextInt(listVideoBase.length - 1);
-
       }
 
-
       if (!lockMemeState) {
+        int randomMeme = Random().nextInt(listMemoto.length - 1);
         memeLegende = listMemoto[randomMeme].memostock;
         memoStockidRandom = listMemoto[randomMeme].memostockid;
       }
       visStar = true;
     });
-
   }
+
   getIndexFromPhotoId(_thatPhotoId) {
     int index = 0;
     for (PhotoBase _brocky in listVideoBase) {
@@ -371,5 +341,4 @@ print ("response.statusCode"+response.statusCode.toString());
     }
     return (0);
   }
-
 }
