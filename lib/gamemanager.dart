@@ -267,41 +267,7 @@ class _GameManagerState extends State<GameManager> {
                         ],
                       ),
                     ),
-                    /*       Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Row(
-                        children: [
-                          ElevatedButton(
-                              onPressed: () => {null},
-                              style: ElevatedButton.styleFrom(
-                                  primary: Colors.blue,
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 15, vertical: 10),
-                                  textStyle: const TextStyle(
-                                      fontSize: 20,
-                                      backgroundColor: Colors.blue,
-                                      fontWeight: FontWeight.bold)),
-                              child: Text("Voting Time = " +
-                                  nbSecVote.toString() +
-                                  " s")),
-                          Slider(
-                            label:
-                                'Temps total accordé pour voter pour TOUS les memes',
-                            activeColor: Colors.orange,
-                            divisions: 20,
-                            min: 10,
-                            max: 110,
-                            value: nbSecVote,
-                            onChanged: (double newValue) {
-                              setState(() {
-                                newValue = newValue.round() as double;
-                                if (newValue != nbSecVote) nbSecVote = newValue;
-                              });
-                            },
-                          ),
-                        ],
-                      ),
-                    ),*/
+
                     Visibility(
                       visible: !isGameValidated,
                       child: Row(

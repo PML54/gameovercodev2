@@ -1,11 +1,12 @@
 import 'dart:convert';
 import 'dart:core';
-
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:gameover/configgamephl.dart';
 import 'package:gameover/gamephlclass.dart';
 import 'package:gameover/phlcommons.dart';
 import 'package:http/http.dart' as http;
+
 //<PMLV2>
 class SelectPhotosPhl extends StatefulWidget {
   const SelectPhotosPhl({Key? key}) : super(key: key);
@@ -13,11 +14,13 @@ class SelectPhotosPhl extends StatefulWidget {
   @override
   State<SelectPhotosPhl> createState() => _SelectPhotosPhlState();
 }
+
 class _SelectPhotosPhlState extends State<SelectPhotosPhl> {
   bool feuVert = false;
-    List<PhotoBase> listPhotoBase = [];
-  List<PhotoBase> listPhotoBaseReduce = [];
+  List<PhotoBase> listPhotoBase = [];
   List<PhotoBase> listPhotoBaseFiltered = [];
+  List<PhotoBase> listPhotoBaseReduce = [];
+
   List<GamePhotoSelect> listGamePhotoSelect = [];
   int combienPhotos = 0;
   String thatGM = "xx";
@@ -25,7 +28,7 @@ class _SelectPhotosPhlState extends State<SelectPhotosPhl> {
   int getGamePhotoSelectError = 0;
   bool getGamePhotoSelectState = false;
   GameCommons myPerso = GameCommons("xxxx", 0, 0);
-  //*
+
   List<int> photoidSelected = []; // retenues avec les Catégotire
   List<PhotoCat> listPhotoCat = [];
   bool getPhotoCatState = false;
@@ -36,6 +39,7 @@ class _SelectPhotosPhlState extends State<SelectPhotosPhl> {
   List<Icon> selIcon = [];
   Icon catIcon = const Icon(Icons.remove);
   bool boolCategory = true;
+
   //int cestCeluiLa = 0;
 
   @override
@@ -84,20 +88,30 @@ class _SelectPhotosPhlState extends State<SelectPhotosPhl> {
       ),
       bottomNavigationBar: Row(
         children: [
+        IconButton(
+            icon: const Icon(Icons.gavel),
+            iconSize: 35,
+            color: Colors.red,
+            tooltip: 'Random',
+            onPressed: () {
+              randomSelection();
+
+            }),
+
           IconButton(
               icon: const Icon(Icons.save),
               iconSize: 35,
-              color: Colors.red,
+              color: Colors.green,
               tooltip: 'Save Selection',
               onPressed: () {
-                //PhlCommons.nbFotosGame = listPhotoBaseReduce.length;
+
                 PhlCommons.nbFotosGame = 0;
                 updateSelection();
               }),
           IconButton(
               icon: const Icon(Icons.insert_photo),
               iconSize: 35,
-              color: Colors.greenAccent,
+              color: Colors.blue,
               tooltip: 'Categories',
               onPressed: () {
                 setState(() {
@@ -112,6 +126,7 @@ class _SelectPhotosPhlState extends State<SelectPhotosPhl> {
       ),
     ));
   }
+
   Future getGamePhotoSelect() async {
     // Lire TABLE   GAMEPHOTOSELECT  et mettre dans  listgetGamePhotoSelect
     Uri url = Uri.parse(pathPHP + "readGAMEPHOTOSELECT.php");
@@ -260,7 +275,7 @@ class _SelectPhotosPhlState extends State<SelectPhotosPhl> {
         listPhotoBase =
             datamysql.map((xJson) => PhotoBase.fromJson(xJson)).toList();
         getPhotoBaseState = true;
-     //   cestCeluiLa = Random().nextInt(listPhotoBase.length);
+        //   cestCeluiLa = Random().nextInt(listPhotoBase.length);
         getPhotoCat();
         feuVert = true;
       });
@@ -403,5 +418,23 @@ class _SelectPhotosPhlState extends State<SelectPhotosPhl> {
     };
     await http.post(url, body: data);
     Navigator.pop(context);
+  }
+
+  void randomSelection() {
+    setState(() {
+
+
+      // On  en prend Un  Au Hasard
+      int cestCeluiLa = Random().nextInt(listPhotoBaseFiltered.length);
+     listPhotoBaseFiltered[cestCeluiLa].isSelected =true;
+      listPhotoBaseReduce.clear();
+      for (PhotoBase _brocky in listPhotoBase) {
+        if (_brocky.isSelected) {
+          listPhotoBaseReduce.add(_brocky);
+        }
+      }
+
+
+    });
   }
 }
