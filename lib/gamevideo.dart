@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:core';
 import 'dart:math';
 
-import 'dart:async';
 import 'package:gameover/configgamephl.dart';
 import 'package:gameover/gamephlclass.dart';
 import 'package:gameover/phlcommons.dart';

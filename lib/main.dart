@@ -67,10 +67,9 @@ class _MenoPaulState extends State<MenoPaul> {
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            'lamemopole.com V1.31'+ myPerso.myPseudo,
+            'lamemopole.com V1.33' + myPerso.myPseudo,
             style: GoogleFonts.averageSans(fontSize: 15.0),
           ),
-
         ),
         body: SingleChildScrollView(
           child: Container(
@@ -293,8 +292,7 @@ class _MenoPaulState extends State<MenoPaul> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            const AdminGame()),
+                                        builder: (context) => AdminGame()),
                                   );
                                 },
                               ),
@@ -314,8 +312,7 @@ class _MenoPaulState extends State<MenoPaul> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            const AdminPhotos()),
+                                        builder: (context) => AdminPhotos()),
                                   );
                                 },
                               ),
@@ -329,20 +326,18 @@ class _MenoPaulState extends State<MenoPaul> {
                                 child: Text(
                                   'ADMIN VIDEOS',
                                   style:
-                                  GoogleFonts.averageSans(fontSize: 12.0),
+                                      GoogleFonts.averageSans(fontSize: 12.0),
                                 ),
                                 onPressed: () {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                        const AdminVideos()),
+                                        builder: (context) => AdminVideos()),
                                   );
                                 },
                               ),
                             ),
                           ),
-
                         ],
                       ),
                       Row(
@@ -423,7 +418,8 @@ class _MenoPaulState extends State<MenoPaul> {
                 },
                 style: ElevatedButton.styleFrom(
                     primary: Colors.red,
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
                     textStyle: const TextStyle(
                         fontSize: 14,
                         backgroundColor: Colors.red,
@@ -438,49 +434,35 @@ class _MenoPaulState extends State<MenoPaul> {
                 child: ElevatedButton(
                   child: Text(
                     'Check DATA',
-                    style:
-                    GoogleFonts.averageSans(fontSize: 15.0),
+                    style: GoogleFonts.averageSans(fontSize: 15.0),
                   ),
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                          const SqlPhl()),
+                      MaterialPageRoute(builder: (context) => const SqlPhl()),
                     );
                   },
                 ),
               ),
             ),
-
-
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: ElevatedButton(
                 child: Text(
                   'VIDEO',
-                  style:
-                  GoogleFonts.averageSans(fontSize: 15.0),
+                  style: GoogleFonts.averageSans(fontSize: 15.0),
                 ),
                 onPressed: () {
-
-
                   Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>   VideoPlayerScreen(),
-                              settings: RouteSettings(
-                                arguments: myPerso,
-                              ),
-                            ),
-                          );
-
-                  /*Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) =>
-                        const VideoPlayerScreen()),
-                  );*/
+                      builder: (context) => VideoPlayerScreen(),
+                      settings: RouteSettings(
+                        arguments: myPerso,
+                      ),
+                    ),
+                  );
+
                 },
               ),
             ),
@@ -489,7 +471,7 @@ class _MenoPaulState extends State<MenoPaul> {
   }
 
   Future cleanLogins() async {
-      Uri url = Uri.parse(pathPHP + "setGUOFFGAME.php");
+    Uri url = Uri.parse(pathPHP + "setGUOFFGAME.php");
 
     var data = {
       //<TODO>
