@@ -391,6 +391,11 @@ class _GameVoteState extends State<GameVote> {
         readGameLikeError = 0;
         listGameLike =
             datamysql.map((xJson) => GameLike.fromJson(xJson)).toList();
+       // listGameLike.sort((a, b) => a.mynote.compareTo(b.mynote));
+
+        // trier par Photoid
+        listGameLike.shuffle();
+        listGameLike.sort((a, b) => a.photoid.compareTo(b.photoid));
         readGameLikeState = true;
       });
     } else {}
